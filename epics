@@ -1,0 +1,50 @@
+EPIC-1: Scope, Architecture & Alignment
+
+Finalize journey architecture diagram (owner: Andrew/Ben)
+Document data source inventory
+Draft AION integration contract
+Get scope sign-off from PO + DFS/COF leadership
+
+EPIC-2: Data Access, Compliance & Telemetry Audit
+
+File NCR approval for Datadog access
+File NCR approval for Splunk access
+File NCR approval for ServiceNow access
+Run telemetry audit on Disputes services
+Document telemetry gaps + mitigation plan
+
+EPIC-3: Build Correlation Engine
+
+Build Datadog ingestion module (logs, traces, metrics)
+Build Splunk alert ingestion module
+Build ServiceNow incident context module
+Implement span ID + timestamp correlation logic
+Define and implement signal/noise filtering rules
+Define correlation output schema for AION consumption
+
+EPIC-4: Build AION Integration
+
+Build AION API client (auth, retry, timeout)
+Implement RCA hypothesis request flow
+Handle AION error and degraded response scenarios
+Surface RCA output in ServiceNow ticket
+End-to-end integration test with live data
+
+EPIC-5: Validation Against Historical Incidents
+
+Export historical P1/P2 incidents from ServiceNow
+Build replay harness for historical incidents
+Run tool against 15-20 incidents
+Score accuracy vs. actual RCAs
+Qualitative review with on-call SREs
+Tune signal/noise rules based on findings
+Document known limitations
+
+EPIC-6: Demo, Hardening & Ops Handoff
+
+Prepare and deliver stakeholder demo
+Productionize correlation engine deployment
+Write operational runbooks
+Define and staff ops ownership
+Build ongoing accuracy monitoring
+Capture Phase 2 backlog from learnings
