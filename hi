@@ -1,0 +1,10 @@
+Hye Anik It's good but Could you be more on scope in description Scope is locked to Disputes Journey, 1 endpoint (MVP)
+Covers end-to-end path: Client → Gateway → Services → DB specific on acceptance criteria: 
+Architecture diagram created (covering Client → Gateway → Services → DB)
+Data flow documented (logs, traces, alerts - source to RCA Agent)
+Dependencies identified (systems, APIs, DBs, third-party)
+Service owners identified per component
+Reviewed and signed off by Andrew + Ben (architecture)
+Reviewed with SME (DFS + COF)
+Stored in Confluence/Drive with version control
+Data classification noted where sensitive data flows
