@@ -1,8 +1,5 @@
-Hey I agree with Ben.
-From my side, I’d like to understand how this convergence (Datadog + OTel + AIOps agent) impacts our current observability patterns. Are we moving toward standardization or co-existing setups?
+Hi Soumya
 
-Also, what does the target end-state architecture look like (especially for logs, metrics, and traces flow - OTel Gateway Datadog/Splunk), and what’s the expected migration approach for workloads already using Datadog?
+For this bullet, the main impact is around improving customer experience by identifying how many customers are impacted due to issues like request timeouts, failed transactions, or other application-level failures.
 
-It would be helpful to know how the AIOps agent fits in whether it’s augmenting or replacing parts of the existing pipeline and what this means operationally for SRE teams in terms of alerting, incident response, and ownership.
-
-Additionally, any clarity on SLO/SLI alignment and dependencies around OneKube, PrivateLink, or GPN OU constraints would help us plan better upfront.
+The work we did helps each application bring in its Customer Impact count, validate it with the respective App/SRE owners, and then surface those numbers on the DTA page. This gives a single place where application teams can view customer impact across apps and use that visibility to focus on reducing timeout errors, failed transactions, and overall customer-facing issues.
