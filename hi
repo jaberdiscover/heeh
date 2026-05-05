@@ -1,10 +1,11 @@
-Hye Anik It's good but Could you be more on scope in description Scope is locked to Disputes Journey, 1 endpoint (MVP)
-Covers end-to-end path: Client → Gateway → Services → DB specific on acceptance criteria: 
-Architecture diagram created (covering Client → Gateway → Services → DB)
-Data flow documented (logs, traces, alerts - source to RCA Agent)
-Dependencies identified (systems, APIs, DBs, third-party)
-Service owners identified per component
-Reviewed and signed off by Andrew + Ben (architecture)
-Reviewed with SME (DFS + COF)
-Stored in Confluence/Drive with version control
-Data classification noted where sensitive data flows
+Hi Soumya,
+
+Here are my major accomplishments from the Customer Impact workstream for Q1 and Q2:
+
+In Q1, I worked on Customer Impact query development and validation for 8 applications: DAIL, AIL, Authorizations, Pulse Debit, Discover Mobile, Atlas, Card Acquisitions, and IVR Bank.
+I created, validated, and converted the required queries for these applications. For Discover Mobile and Atlas, I also converted the CLS-based queries into ES DQL format.
+I worked closely with the Customer Impact workstream and supported the DTA team in integrating the validated Customer Impact counts into the DTA page, making the impact numbers visible and usable for application teams.
+In Q2, I worked on FFIEC DR/payment application tickets(8), mainly focused on validating Customer Impact queries for payment-related applications such as EPP, SAFE, RBI, Full Volume Publisher, Auth Extracts, Splunk Publisher, Pulse Clearing & Reconciliation.
+I converted plain ES queries into ES DSL format, validated Splunk-based queries for multiple applications, and moved 4 payment application tickets Full Volume Publisher, EPP, Auth Extracts, and Splunk Publisher into final review/approval with the respective App/SRE owners.
+
+Overall, my contribution across Q1 and Q2 was focused on query creation, query conversion, validation, DTA integration support, and driving Customer Impact tickets toward closure through coordination with App/SRE owners.
