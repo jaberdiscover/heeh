@@ -1,5 +1,21 @@
-Hi Soumya
+Hi Deepak 
+Here's what i am working on customer impact workstream
 
-For this bullet, the main impact is around improving customer experience by identifying how many customers are impacted due to issues like request timeouts, failed transactions, or other application-level failures.
+I am currently working on 8 FFIEC DR applications to build/validate the queries and dashboards for customer impact counts.
 
-The work we did helps each application bring in its Customer Impact count, validate it with the respective App/SRE owners, and then surface those numbers on the DTA page. This gives a single place where application teams can view customer impact across apps and use that visibility to focus on reducing timeout errors, failed transactions, and overall customer-facing issues.
+Completed/closed today: Auth Extracts and Full Volume Publisher.
+
+Currently in queue: Pulse Debit, EPP, and Splunk Publisher.
+
+Blocked due to pending app team inputs: SAFE, RBI, and DCI Pulse.
+
+I am actively following up with the blocked application teams to get the required details and move them forward.
+
+On the other hand I am working with Abhilash to gather stats that show how the queries/dashboards are being used by application teams during real incidents.
+The goal is to show leadership how this work is helping with incident detection, investigation, and resolution using the presentation I created
+
+I currently have the incident dashboard/query details for AIL.
+
+For the remaining apps, I have received partial inputs, but some teams mentioned they do not have related incidents at this time.
+
+I am continuing to follow up with the remaining teams to collect the required details.
