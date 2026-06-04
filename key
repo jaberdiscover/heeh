@@ -1,21 +1,5 @@
-Hi Deepak 
-Here's what i am working on customer impact workstream
-
-I am currently working on 8 FFIEC DR applications to build/validate the queries and dashboards for customer impact counts.
-
-Completed/closed today: Auth Extracts and Full Volume Publisher.
-
-Currently in queue: Pulse Debit, EPP, and Splunk Publisher.
-
-Blocked due to pending app team inputs: SAFE, RBI, and DCI Pulse.
-
-I am actively following up with the blocked application teams to get the required details and move them forward.
-
-On the other hand I am working with Abhilash to gather stats that show how the queries/dashboards are being used by application teams during real incidents.
-The goal is to show leadership how this work is helping with incident detection, investigation, and resolution using the presentation I created
-
-I currently have the incident dashboard/query details for AIL.
-
-For the remaining apps, I have received partial inputs, but some teams mentioned they do not have related incidents at this time.
-
-I am continuing to follow up with the remaining teams to collect the required details.
+Use CMDB as the source of truth for application/service ownership and criticality.
+Map each certificate to the related CI, application, or business service.
+Pull existing fields such as application tier, business criticality, environment, support group, and SLA/SLO classification.
+Display certificate criticality in the dashboard based on that mapping.
+Use certificate description and last renewal date only as secondary indicators where CMDB linkage is missing.
