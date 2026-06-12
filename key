@@ -1,5 +1,22 @@
-Use CMDB as the source of truth for application/service ownership and criticality.
-Map each certificate to the related CI, application, or business service.
-Pull existing fields such as application tier, business criticality, environment, support group, and SLA/SLO classification.
-Display certificate criticality in the dashboard based on that mapping.
-Use certificate description and last renewal date only as secondary indicators where CMDB linkage is missing.
+Report Details Update – Description & Last Renewal
+
+Certificate Description:
+
+The dashboard currently derives a brief description from the following fields:
+Certificate Owner – identifies the owning team or SRE group
+Common Name (CN) – identifies the certificate/service name
+Subject Alternative Name (SAN) – identifies DNS names or endpoints covered
+Feedback from tower owners (Kevin, Bhargav, Hari) confirms that this view provides adequate context.
+Short-term, no new calculated field is available; a new description field may be implemented once Chad Niemi from ServiceNow is available.
+
+Last Renewal Date:
+
+The Issued field in u_cmdb_certificate is used to track the last renewal date for each certificate.
+Proposed display label for clarity: “Last Renewed / Issued Date”.
+ServiceNow team will confirm if renaming the field is possible.
+
+Implementation Notes:
+
+Both Certificate Description and Last Renewal Date are included in the dashboard to provide leadership and tower owners with clear visibility of certificate context and renewal status.
+These fields are already available in the dashboard view and do not require additional CMDB modifications at this time.
+Future updates may include a dedicated calculated field for description once ServiceNow confirms feasibility.
