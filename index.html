@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Would You Ship It? — CORE Summit</title>
+  <style>
+    :root{
+      --bg:#07111f;
+      --panel:#0f1c2d;
+      --panel2:#14243a;
+      --line:#2d3b50;
+      --text:#f4f7fb;
+      --muted:#a8bdd9;
+      --accent:#54d39a;
+      --accent2:#61a9ff;
+      --warning:#ffc94a;
+      --danger:#ff646b;
+      --good:#57d99b;
+      --shadow:0 20px 60px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#030913;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+    button{font:inherit}
+    #viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:
+      radial-gradient(circle at 12% 18%,rgba(48,96,168,.25),transparent 32%),
+      radial-gradient(circle at 84% 16%,rgba(38,119,114,.14),transparent 26%),
+      #030913}
+    #stage{
+      position:absolute;
+      width:1600px;
+      height:900px;
+      transform-origin:top left;
+      background:linear-gradient(135deg,#0a1b31 0%,#06111f 52%,#050b14 100%);
+      overflow:hidden;
+    }
+    .screen{position:absolute;inset:0;display:none}
+    .screen.active{display:block}
+    .topbar{
+      height:104px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:22px 40px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .brand h1{margin:0;font-size:52px;line-height:1;font-weight:800;letter-spacing:-1.8px}
+    .brand p{margin:8px 0 0;font-size:22px;color:var(--muted)}
+    .top-actions{display:flex;gap:12px}
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:14px;
+      padding:13px 20px;
+      color:var(--text);
+      background:#172130;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow:0 6px 16px rgba(0,0,0,.16);
+      transition:transform .15s ease,background .15s ease,border-color .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px);background:#1d2a3c;border-color:rgba(255,255,255,.24)}
+    .btn:active{transform:translateY(0)}
+    .btn.primary{background:var(--accent);color:#06130e;border-color:transparent}
+    .btn.primary:hover{background:#6be0aa}
+    .btn.ghost{background:transparent}
+    .start-wrap{
+      height:796px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      align-items:center;
+      gap:54px;
+      padding:44px 64px 58px;
+    }
+    .hero-kicker{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border-radius:999px;background:rgba(84,211,154,.12);color:#8aebbd;font-weight:800;letter-spacing:.4px}
+    .hero h2{font-size:68px;line-height:1.02;margin:24px 0 18px;letter-spacing:-2px}
+    .hero p{font-size:26px;line-height:1.5;color:var(--muted);max-width:850px;margin:0 0 28px}
+    .hero .btn{font-size:24px;padding:17px 28px;border-radius:16px}
+    .rules{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:32px;
+      max-width:760px;
+    }
+    .rule{
+      background:rgba(255,255,255,.045);
+      border:1px solid rgba(255,255,255,.09);
+      padding:16px 18px;
+      border-radius:16px;
+      color:#dbe7f6;
+      font-size:18px;
+    }
+    .rule b{display:block;color:#fff;margin-bottom:4px}
+    .start-panel{
+      background:rgba(15,28,45,.92);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .start-panel h3{margin:0 0 20px;font-size:28px}
+    .start-metrics{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .start-metric{
+      padding:20px;border-radius:18px;background:#17263a;border:1px solid rgba(255,255,255,.08)
+    }
+    .start-metric span{display:block;color:var(--muted);font-weight:700;font-size:16px;letter-spacing:.5px;text-transform:uppercase}
+    .start-metric strong{display:block;font-size:42px;margin-top:8px}
+    .note{margin-top:18px;padding:15px 17px;border-left:4px solid var(--accent2);background:rgba(97,169,255,.08);color:#cfe1fb;border-radius:10px;font-size:18px;line-height:1.45}
+
+    .play-body{height:796px;padding:18px 36px 18px;display:grid;grid-template-rows:126px 1fr 38px;gap:16px}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .metric{
+      background:linear-gradient(180deg,rgba(24,40,61,.96),rgba(15,27,43,.96));
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:18px 20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .metric .label{font-size:16px;color:var(--muted);font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+    .metric .value{font-size:42px;font-weight:800;margin-top:7px}
+    .track{height:10px;border-radius:999px;background:#354156;overflow:hidden;margin-top:9px}
+    .fill{height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .45s ease,background .3s ease}
+    .main-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px;min-height:0}
+    .panel{
+      background:linear-gradient(180deg,rgba(18,32,50,.98),rgba(12,23,37,.98));
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      min-height:0;
+      overflow:hidden;
+    }
+    .scenario-panel{padding:24px 26px;display:flex;flex-direction:column}
+    .scenario-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .tag{display:inline-flex;align-items:center;padding:8px 13px;border-radius:999px;font-weight:800;font-size:15px;letter-spacing:.6px;text-transform:uppercase;background:var(--warning);color:#1a1400}
+    .tag.reliability{background:#79b9ff;color:#061220}
+    .tag.stabilized{background:#a89cff;color:#120d2c}
+    .day-label{font-size:18px;font-weight:800;color:var(--muted)}
+    .scenario-title{font-size:44px;line-height:1.05;letter-spacing:-1.1px;margin:20px 0 10px}
+    .scenario-desc{font-size:21px;line-height:1.42;color:var(--muted);margin:0}
+    .scenario-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+    .meta{
+      background:#19273a;border:1px solid rgba(255,255,255,.09);border-radius:15px;padding:13px 15px
+    }
+    .meta span{display:block;font-size:13px;text-transform:uppercase;color:var(--muted);font-weight:800;letter-spacing:.55px}
+    .meta strong{display:block;margin-top:5px;font-size:20px}
+    .choice-title{margin:4px 0 10px;font-size:18px;color:#dfeafd}
+    .choices{display:grid;grid-template-columns:1fr;gap:10px}
+    .choice{
+      width:100%;
+      display:grid;
+      grid-template-columns:48px 1fr auto;
+      align-items:center;
+      gap:13px;
+      text-align:left;
+      border:1px solid rgba(255,255,255,.11);
+      background:#152338;
+      color:var(--text);
+      border-radius:15px;
+      padding:12px 14px;
+      cursor:pointer;
+      transition:background .15s ease,border-color .15s ease,transform .15s ease;
+    }
+    .choice:hover{background:#1d304a;border-color:rgba(97,169,255,.7);transform:translateX(2px)}
+    .choice:disabled{cursor:not-allowed;opacity:.62;transform:none}
+    .choice-num{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:#243650;font-weight:900}
+    .choice-text strong{display:block;font-size:18px}
+    .choice-text span{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+    .impact-preview{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+    .impact-pill{font-size:13px;font-weight:800;padding:5px 8px;border-radius:999px;background:#0d1827;border:1px solid rgba(255,255,255,.08);color:#d4e2f5}
+    .placeholder{
+      flex:1;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted)
+    }
+    .placeholder h3{color:#fff;font-size:32px;margin:0 0 10px}
+    .placeholder p{font-size:19px;line-height:1.45;margin:0 0 22px;max-width:560px}
+    .placeholder .btn{font-size:22px;padding:16px 26px}
+    .wheel-panel{padding:22px;display:grid;grid-template-rows:1fr auto;gap:14px}
+    .wheel-area{position:relative;display:grid;place-items:center;min-height:0}
+    .pointer{
+      position:absolute;top:5px;left:50%;transform:translateX(-50%);
+      width:0;height:0;border-left:24px solid transparent;border-right:24px solid transparent;border-top:0;border-bottom:44px solid #f4f7fb;z-index:4;
+      filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))
+    }
+    .wheel{
+      width:330px;height:330px;border-radius:50%;
+      background:conic-gradient(
+        #56d69a 0deg 36deg,
+        #61a9ff 36deg 72deg,
+        #ffd056 72deg 108deg,
+        #ff646b 108deg 144deg,
+        #9b6ced 144deg 180deg,
+        #22b8e6 180deg 216deg,
+        #e852b1 216deg 252deg,
+        #ffe23d 252deg 288deg,
+        #11d8c0 288deg 324deg,
+        #ff8b12 324deg 360deg
+      );
+      border:13px solid rgba(255,255,255,.06);
+      box-shadow:0 18px 48px rgba(0,0,0,.42),inset 0 0 0 2px rgba(255,255,255,.13);
+      transition:transform 2.1s cubic-bezier(.15,.82,.12,1);
+      position:relative;
+    }
+    .wheel:after{
+      content:"SHIP?";
+      position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);
+      width:116px;height:116px;border-radius:50%;display:grid;place-items:center;
+      background:#0b1727;border:10px solid #1c2c44;color:#fff;font-size:28px;font-weight:900;
+      box-shadow:0 8px 24px rgba(0,0,0,.38)
+    }
+    .wheel-controls{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;
+      background:#182536;border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:15px
+    }
+    .wheel-controls .btn{font-size:18px;padding:14px 16px}
+    .audience-note{grid-column:1/-1;color:var(--muted);font-size:17px;line-height:1.4}
+    .audience-note b{color:#fff}
+    .footerbar{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
+    .keys{display:flex;gap:9px;align-items:center}
+    kbd{background:#152132;border:1px solid rgba(255,255,255,.13);border-radius:7px;padding:4px 8px;color:#fff;font-family:inherit;font-weight:800}
+    .toast{
+      position:absolute;left:50%;bottom:32px;transform:translate(-50%,14px);
+      opacity:0;pointer-events:none;background:#111f31;color:#fff;border:1px solid rgba(255,255,255,.13);
+      padding:12px 18px;border-radius:12px;transition:.25s ease;z-index:20;font-weight:700
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .overlay{position:absolute;inset:0;background:rgba(2,8,15,.72);display:none;align-items:center;justify-content:center;z-index:15;padding:50px}
+    .overlay.show{display:flex}
+    .outcome-card{
+      width:820px;background:#111f31;border:1px solid rgba(255,255,255,.13);border-radius:26px;padding:30px;box-shadow:0 28px 90px rgba(0,0,0,.55)
+    }
+    .outcome-card h3{font-size:34px;margin:0 0 12px}
+    .outcome-card p{font-size:21px;line-height:1.48;color:var(--muted);margin:0}
+    .delta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+    .delta{padding:16px;border-radius:16px;background:#18283d;border:1px solid rgba(255,255,255,.09)}
+    .delta span{display:block;color:var(--muted);font-size:14px;text-transform:uppercase;font-weight:800}
+    .delta strong{font-size:30px;display:block;margin-top:5px}
+    .outcome-actions{display:flex;justify-content:flex-end;gap:12px}
+    .result-wrap{height:796px;padding:42px 54px;display:grid;grid-template-columns:.86fr 1.14fr;gap:28px;align-items:center}
+    .result-left h2{font-size:58px;line-height:1.03;margin:0 0 14px}
+    .result-left p{color:var(--muted);font-size:22px;line-height:1.45}
+    .result-badge{display:inline-block;margin:12px 0 16px;padding:10px 15px;border-radius:999px;background:rgba(84,211,154,.14);color:#8decbd;font-size:19px;font-weight:900}
+    .result-right{background:#101d2e;border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:26px}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .result-metric{background:#18273a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:20px}
+    .result-metric span{display:block;color:var(--muted);font-weight:800;text-transform:uppercase;font-size:14px}
+    .result-metric strong{display:block;font-size:42px;margin-top:8px}
+    .result-message{margin-top:18px;padding:18px;border-left:4px solid var(--accent);background:rgba(84,211,154,.08);border-radius:12px;color:#d9f4e7;font-size:19px;line-height:1.45}
+    .result-actions{display:flex;gap:12px;margin-top:22px}
+    .help-overlay{
+      position:absolute;inset:0;background:rgba(2,8,15,.83);z-index:30;display:none;align-items:center;justify-content:center
+    }
+    .help-overlay.show{display:flex}
+    .help-card{width:720px;background:#111f31;border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:28px}
+    .help-card h3{font-size:32px;margin:0 0 14px}
+    .help-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .help-item{display:flex;align-items:center;gap:12px;padding:12px;background:#18283d;border-radius:13px;color:#dce7f5}
+    .help-card .btn{margin-top:18px;float:right}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.wheel,.fill,.btn,.choice,.toast{transition:none!important}}
+  </style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <section id="startScreen" class="screen active" aria-label="Game start">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Would You Ship It?</h1>
+          <p>CORE Summit SRE simulation</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" id="startHelpBtn" type="button">Presenter Help</button>
+          <button class="btn" id="startFullscreenBtn" type="button">Fullscreen</button>
+        </div>
+      </div>
+      <div class="start-wrap">
+        <div class="hero">
+          <span class="hero-kicker">5 SPRINT DAYS • LIVE AUDIENCE DECISIONS</span>
+          <h2>Deliver value without exhausting reliability.</h2>
+          <p>You are the engineering team. Each day, the audience chooses whether to ship, stabilize, or invest in reliability. Every decision changes the error budget, product value, and customer trust.</p>
+          <button class="btn primary" id="startBtn" type="button">Start Simulation</button>
+          <div class="rules">
+            <div class="rule"><b>1. Spin a scenario</b>A feature or reliability decision appears.</div>
+            <div class="rule"><b>2. Ask the audience</b>Vote for option 1, 2, or 3.</div>
+            <div class="rule"><b>3. Reveal the outcome</b>Metrics update immediately.</div>
+            <div class="rule"><b>4. Survive five days</b>Balance delivery and reliability.</div>
+          </div>
+        </div>
+        <aside class="start-panel">
+          <h3>Starting position</h3>
+          <div class="start-metrics">
+            <div class="start-metric"><span>Error Budget</span><strong>100%</strong></div>
+            <div class="start-metric"><span>Product Value</span><strong>0</strong></div>
+            <div class="start-metric"><span>Customer Trust</span><strong>100</strong></div>
+            <div class="start-metric"><span>Sprint Days</span><strong>5</strong></div>
+          </div>
+          <!-- <div class="note"><b>Presenter tip:</b> Ask for a show of hands, then press <b>1</b>, <b>2</b>, or <b>3</b>. The site works by double-clicking the HTML file—no server or internet is required.</div> -->
+        </aside>
+      </div>
+    </section>
+
+    <section id="playScreen" class="screen" aria-label="Game board">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Would You Ship It?</h1>
+          <p>Balance product delivery with reliability</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" id="helpBtn" type="button">Help</button>
+          <button class="btn" id="fullscreenBtn" type="button">Fullscreen</button>
+          <button class="btn" id="resetBtn" type="button">Reset</button>
+        </div>
+      </div>
+
+      <div class="play-body">
+        <div class="metrics">
+          <div class="metric">
+            <div class="label">Sprint Day</div>
+            <div class="value" id="dayValue">1/5</div>
+            <div class="track"><div class="fill" id="dayFill"></div></div>
+          </div>
+          <div class="metric">
+            <div class="label">Error Budget</div>
+            <div class="value" id="budgetValue">100%</div>
+            <div class="track"><div class="fill" id="budgetFill"></div></div>
+          </div>
+          <div class="metric">
+            <div class="label">Product Value</div>
+            <div class="value" id="productValue">0</div>
+            <div class="track"><div class="fill" id="productFill"></div></div>
+          </div>
+          <div class="metric">
+            <div class="label">Customer Trust</div>
+            <div class="value" id="trustValue">100</div>
+            <div class="track"><div class="fill" id="trustFill"></div></div>
+          </div>
+        </div>
+
+        <div class="main-grid">
+          <section class="panel scenario-panel" id="scenarioPanel">
+            <div id="scenarioPlaceholder" class="placeholder">
+              <div>
+                <h3>Ready for Sprint Day 1</h3>
+                <p>Spin the wheel to reveal the first product or reliability decision.</p>
+                <button class="btn primary" id="spinFromPanelBtn" type="button">Spin Scenario</button>
+              </div>
+            </div>
+
+            <div id="scenarioContent" style="display:none">
+              <div class="scenario-top">
+                <span class="tag" id="scenarioTag">Feature request</span>
+                <span class="day-label" id="scenarioDay">Day 1</span>
+              </div>
+              <h2 class="scenario-title" id="scenarioTitle">Scenario</h2>
+              <p class="scenario-desc" id="scenarioDesc"></p>
+              <div class="scenario-meta">
+                <div class="meta"><span>Platform Area</span><strong id="metaArea">—</strong></div>
+                <div class="meta"><span>Risk</span><strong id="metaRisk">—</strong></div>
+                <div class="meta"><span>Business Pressure</span><strong id="metaPressure">—</strong></div>
+              </div>
+              <div class="choice-title"><b>Audience decision:</b> choose one option</div>
+              <div class="choices" id="choices"></div>
+            </div>
+          </section>
+
+          <aside class="panel wheel-panel">
+            <div class="wheel-area">
+              <div class="pointer" aria-hidden="true"></div>
+              <div class="wheel" id="wheel" aria-label="Scenario wheel"></div>
+            </div>
+            <div class="wheel-controls">
+              <button class="btn primary" id="spinBtn" type="button">Spin Scenario</button>
+              <button class="btn" id="finishBtn" type="button">End Game</button>
+              <div class="audience-note"><b>Audience decision:</b> Ask for a quick vote, then select option 1, 2, or 3.</div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="footerbar">
+          <!-- <span>Offline site • No internet, login, hosting, or external services required</span> -->
+          <div class="keys">
+            <kbd>Space</kbd><span>Spin</span>
+            <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><span>Select</span>
+            <kbd>N</kbd><span>Next</span>
+            <kbd>F</kbd><span>Fullscreen</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen" aria-label="Final result">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Simulation Complete</h1>
+          <p>Your five-day engineering outcome</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="resultFullscreenBtn" type="button">Fullscreen</button>
+        </div>
+      </div>
+      <div class="result-wrap">
+        <div class="result-left">
+          <span class="result-badge" id="resultBadge">Balanced Engineering</span>
+          <h2 id="resultTitle">You delivered value and protected reliability.</h2>
+          <p id="resultSummary"></p>
+          <div class="result-actions">
+            <button class="btn primary" id="playAgainBtn" type="button">Play Again</button>
+            <button class="btn" id="resultResetBtn" type="button">Return to Start</button>
+          </div>
+        </div>
+        <div class="result-right">
+          <div class="result-grid">
+            <div class="result-metric"><span>Error Budget</span><strong id="finalBudget">0%</strong></div>
+            <div class="result-metric"><span>Product Value</span><strong id="finalProduct">0</strong></div>
+            <div class="result-metric"><span>Customer Trust</span><strong id="finalTrust">0</strong></div>
+            <div class="result-metric"><span>Incidents Triggered</span><strong id="finalIncidents">0</strong></div>
+          </div>
+          <div class="result-message">SRE is not about preventing change. It is about understanding how much change the service can safely absorb.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="overlay" id="outcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="outcomeTitle">
+      <div class="outcome-card">
+        <h3 id="outcomeTitle">Decision outcome</h3>
+        <p id="outcomeText"></p>
+        <div class="delta-grid">
+          <div class="delta"><span>Error Budget</span><strong id="deltaBudget">0%</strong></div>
+          <div class="delta"><span>Product Value</span><strong id="deltaProduct">0</strong></div>
+          <div class="delta"><span>Customer Trust</span><strong id="deltaTrust">0</strong></div>
+        </div>
+        <div class="outcome-actions">
+          <button class="btn primary" id="nextBtn" type="button">Next Sprint Day</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-overlay" id="helpOverlay">
+      <div class="help-card">
+        <h3>Presenter controls</h3>
+        <div class="help-grid">
+          <div class="help-item"><kbd>Space</kbd> Spin scenario</div>
+          <div class="help-item"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Select choice</div>
+          <div class="help-item"><kbd>N</kbd> Next sprint day</div>
+          <div class="help-item"><kbd>F</kbd> Fullscreen</div>
+          <div class="help-item"><kbd>R</kbd> Reset game</div>
+          <div class="help-item"><kbd>Esc</kbd> Close help/fullscreen</div>
+        </div>
+        <button class="btn primary" id="closeHelpBtn" type="button">Close</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const DESIGN_W = 1600, DESIGN_H = 900;
+  const MAX_DAYS = 5;
+
+  const scenarios = [
+    {
+      title:"Real-Time Fraud Detection Engine",
+      type:"Aggressive Feature",
+      tagClass:"",
+      area:"Fraud & Authorization",
+      risk:"High",
+      pressure:"Loss Prevention",
+      desc:"AI-driven transaction blocking could reduce fraud losses, but a false-positive spike may decline legitimate card activity.",
+      options:[
+        {title:"Full production launch", hint:"Maximum reach, highest operational exposure", budget:-20, product:30, trust:2, incidents:1, outcome:"The feature reached all traffic immediately. Fraud coverage improved, but false positives consumed a large portion of the error budget and triggered a customer-impacting incident."},
+        {title:"10% canary with rollback guardrails", hint:"Controlled exposure with fast recovery", budget:-8, product:20, trust:4, incidents:0, outcome:"The canary delivered early value while limiting blast radius. Guardrails caught model drift before a broad customer impact."},
+        {title:"Delay and validate the model", hint:"Lower delivery, stronger confidence", budget:5, product:5, trust:2, incidents:0, outcome:"The team postponed broad release and improved validation. Delivery slowed, but reliability capacity and confidence increased."}
+      ]
+    },
+    {
+      title:"Cross-Border Instant Settlement",
+      type:"Aggressive Feature",
+      tagClass:"",
+      area:"Global Payments",
+      risk:"High",
+      pressure:"Market Expansion",
+      desc:"Immediate funds availability for international transfers has high business value, but introduces volatility across settlement windows and partner dependencies.",
+      options:[
+        {title:"Launch globally", hint:"Fastest value, broadest blast radius", budget:-15, product:28, trust:2, incidents:1, outcome:"The global launch created strong business value, but regional settlement differences produced reliability issues and consumed significant error budget."},
+        {title:"Pilot two corridors", hint:"Measured rollout with limited exposure", budget:-6, product:18, trust:3, incidents:0, outcome:"The pilot proved the feature in controlled corridors. Product value arrived with manageable risk and actionable operational data."},
+        {title:"Complete settlement controls first", hint:"Delay for stronger safeguards", budget:6, product:4, trust:2, incidents:0, outcome:"Additional controls reduced uncertainty and improved operational readiness, though the market launch was delayed."}
+      ]
+    },
+    {
+      title:"Third-Party E-Wallet Integration",
+      type:"Aggressive Feature",
+      tagClass:"",
+      area:"Partner Integrations",
+      risk:"High",
+      pressure:"Digital Growth",
+      desc:"Connecting external wallets expands reach, but adds authentication, timeout, retry, and vendor-availability risks.",
+      options:[
+        {title:"Enable all wallet partners", hint:"Maximum reach from day one", budget:-10, product:25, trust:1, incidents:1, outcome:"Broad enablement accelerated growth, but one unstable partner caused retries and elevated failure rates."},
+        {title:"Launch one partner behind a feature flag", hint:"Controlled partner exposure", budget:-5, product:16, trust:3, incidents:0, outcome:"Feature flags limited blast radius and allowed the team to tune timeout and retry behavior before expansion."},
+        {title:"Harden auth and circuit breakers first", hint:"Reliability before rollout", budget:7, product:5, trust:2, incidents:0, outcome:"The team invested in fault isolation and secure integration patterns. Product value was delayed, but platform resilience improved."}
+      ]
+    },
+    {
+      title:"Automated Dispute Reconciliation",
+      type:"Stabilized Feature",
+      tagClass:"stabilized",
+      area:"Reconciliation",
+      risk:"Medium",
+      pressure:"Operations Efficiency",
+      desc:"Automating merchant dispute reconciliation reduces manual review, but touches file ingestion, matching rules, and reporting.",
+      options:[
+        {title:"Release to all merchants", hint:"Immediate operational savings", budget:-7, product:18, trust:2, incidents:0, outcome:"The release created immediate efficiency gains, but edge cases required production support and consumed error budget."},
+        {title:"Stage by merchant segment", hint:"Progressive rollout", budget:-3, product:14, trust:3, incidents:0, outcome:"A staged release balanced value and control. Early segments exposed rule gaps before wider adoption."},
+        {title:"Run one more test cycle", hint:"Lower short-term value, stronger confidence", budget:5, product:3, trust:1, incidents:0, outcome:"The additional test cycle delayed savings but improved rule accuracy and protected reliability."}
+      ]
+    },
+    {
+      title:"Holiday Calendar Validation Logic",
+      type:"Stabilized Feature",
+      tagClass:"stabilized",
+      area:"ACH & Wire Processing",
+      risk:"Medium",
+      pressure:"Seasonal Readiness",
+      desc:"Regional holiday rules can alter transmission schedules. A configuration gap may delay merchant ACH files and wire transfers.",
+      options:[
+        {title:"Implement validation before the holiday window", hint:"Prevent schedule-related failures", budget:6, product:10, trust:4, incidents:0, outcome:"Validation prevented incorrect transmission dates and protected customer commitments during the holiday period."},
+        {title:"Proceed without the validation update", hint:"Preserve delivery schedule, accept risk", budget:-8, product:12, trust:-4, incidents:1, outcome:"The release stayed on schedule, but regional processing delays created a preventable incident and customer escalation."},
+        {title:"Use a temporary manual review", hint:"Short-term workaround", budget:-3, product:6, trust:0, incidents:0, outcome:"The workaround reduced immediate risk, but added operational load and left the underlying automation gap unresolved."}
+      ]
+    },
+    {
+      title:"Merchant Settlement File Monitoring",
+      type:"Stabilized Feature",
+      tagClass:"stabilized",
+      area:"Settlement Operations",
+      risk:"Low",
+      pressure:"Operational Visibility",
+      desc:"Future-dated settlement records need reliable file-status monitoring so delayed or missing transmissions are detected early.",
+      options:[
+        {title:"Implement end-to-end monitoring", hint:"Full status visibility and alerting", budget:7, product:10, trust:4, incidents:0, outcome:"The monitoring closed detection gaps, reduced time to identify failures, and improved operational confidence."},
+        {title:"Alert only on critical file types", hint:"Faster, partial coverage", budget:2, product:7, trust:2, incidents:0, outcome:"Critical files gained protection quickly, but lower-priority gaps remained for a later sprint."},
+        {title:"Defer monitoring to ship another feature", hint:"Short-term value, hidden risk", budget:-8, product:12, trust:-3, incidents:1, outcome:"Feature value increased, but an undetected file delay consumed error budget and reduced customer trust."}
+      ]
+    },
+    {
+      title:"Database Query Refactoring",
+      type:"Reliability Task",
+      tagClass:"reliability",
+      area:"Settlement Data",
+      risk:"Low",
+      pressure:"Technical Debt",
+      desc:"Refactoring inefficient SQL improves settlement-data accuracy and reduces the chance of slow processing or reconciliation errors.",
+      options:[
+        {title:"Complete the full refactor", hint:"No immediate feature value", budget:10, product:0, trust:3, incidents:0, outcome:"The refactor removed a recurring performance risk and restored reliability capacity for future releases."},
+        {title:"Add targeted indexes and safeguards", hint:"Partial remediation", budget:6, product:3, trust:2, incidents:0, outcome:"Targeted changes improved the highest-risk queries while leaving some technical debt for later."},
+        {title:"Defer the work", hint:"Preserve sprint capacity", budget:-6, product:10, trust:-2, incidents:1, outcome:"The team preserved delivery capacity, but recurring query contention caused an avoidable degradation."}
+      ]
+    },
+    {
+      title:"Regression Testing Suite Update",
+      type:"Reliability Task",
+      tagClass:"reliability",
+      area:"Settlement Files",
+      risk:"Low",
+      pressure:"Release Confidence",
+      desc:"Automated regression coverage can validate settlement-file formats, matching rules, and transmission behavior before production.",
+      options:[
+        {title:"Update the complete regression suite", hint:"Maximum test confidence", budget:10, product:0, trust:3, incidents:0, outcome:"The expanded suite caught defects before release and increased the service's reliability capacity."},
+        {title:"Cover critical paths first", hint:"Balanced test investment", budget:6, product:3, trust:2, incidents:0, outcome:"Critical-path automation reduced major release risk while keeping some development capacity available."},
+        {title:"Skip the update this sprint", hint:"More feature time, less protection", budget:-8, product:12, trust:-3, incidents:1, outcome:"A regression escaped into production, creating rework and consuming error budget."}
+      ]
+    },
+    {
+      title:"Incident Detection & Observability Fix",
+      type:"Reliability Task",
+      tagClass:"reliability",
+      area:"Observability",
+      risk:"Medium",
+      pressure:"Detection Speed",
+      desc:"Telemetry gaps increase detection time and make customer impact harder to quantify during production incidents.",
+      options:[
+        {title:"Close all critical observability gaps", hint:"Full reliability investment", budget:10, product:0, trust:5, incidents:0, outcome:"The team restored high-signal monitoring and reduced both detection and recovery time."},
+        {title:"Fix the highest-impact gaps", hint:"Targeted improvement", budget:6, product:3, trust:3, incidents:0, outcome:"The most important signals were restored, improving incident response while preserving some sprint capacity."},
+        {title:"Defer observability work", hint:"Prioritize visible features", budget:-10, product:12, trust:-5, incidents:1, outcome:"A production issue went undetected longer than necessary, increasing customer impact and exhausting reliability capacity."}
+      ]
+    },
+    {
+      title:"Pre-Transmission Validation Hardening",
+      type:"Reliability Task",
+      tagClass:"reliability",
+      area:"ACH Processing",
+      risk:"Medium",
+      pressure:"File Accuracy",
+      desc:"Robust checks on outbound ACH files can prevent malformed or incomplete transmissions from reaching downstream partners.",
+      options:[
+        {title:"Implement full validation hardening", hint:"Maximum preventive control", budget:10, product:0, trust:4, incidents:0, outcome:"Stronger validation stopped bad files before transmission and materially improved operational reliability."},
+        {title:"Validate only high-risk files", hint:"Targeted preventive coverage", budget:6, product:3, trust:2, incidents:0, outcome:"The highest-risk transmissions gained protection, with broader hardening deferred to a future sprint."},
+        {title:"Continue with current checks", hint:"No schedule impact, higher risk", budget:-12, product:12, trust:-6, incidents:1, outcome:"An outbound file failed downstream validation, causing reprocessing, customer impact, and a significant budget loss."}
+      ]
+    }
+  ];
+
+  const state = {
+    day:1, budget:100, product:0, trust:100, incidents:0,
+    used:[], current:null, chosen:false, spinning:false, rotation:0
+  };
+
+  const $ = id => document.getElementById(id);
+  const screens = {start:$("startScreen"), play:$("playScreen"), result:$("resultScreen")};
+
+  function fitStage(){
+    const scale = Math.min(window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
+    const left = (window.innerWidth - DESIGN_W * scale) / 2;
+    const top = (window.innerHeight - DESIGN_H * scale) / 2;
+    const stage = $("stage");
+    stage.style.transform = `scale(${scale})`;
+    stage.style.left = `${left}px`;
+    stage.style.top = `${top}px`;
+  }
+
+  function showScreen(name){
+    Object.values(screens).forEach(s => s.classList.remove("active"));
+    screens[name].classList.add("active");
+  }
+
+  function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
+  function signed(n,suffix=""){ return `${n>0?"+":""}${n}${suffix}`; }
+
+  function updateMetrics(){
+    $("dayValue").textContent = `${Math.min(state.day,MAX_DAYS)}/${MAX_DAYS}`;
+    $("budgetValue").textContent = `${state.budget}%`;
+    $("productValue").textContent = state.product;
+    $("trustValue").textContent = state.trust;
+
+    $("dayFill").style.width = `${(Math.min(state.day,MAX_DAYS)/MAX_DAYS)*100}%`;
+    $("budgetFill").style.width = `${state.budget}%`;
+    $("productFill").style.width = `${clamp(state.product,0,100)}%`;
+    $("trustFill").style.width = `${state.trust}%`;
+
+    $("budgetFill").style.background = state.budget <= 20 ? "var(--danger)" : state.budget <= 45 ? "var(--warning)" : "var(--accent)";
+    $("trustFill").style.background = state.trust <= 45 ? "var(--danger)" : state.trust <= 70 ? "var(--warning)" : "var(--accent)";
+  }
+
+  function resetGame(goStart=true){
+    state.day=1; state.budget=100; state.product=0; state.trust=100; state.incidents=0;
+    state.used=[]; state.current=null; state.chosen=false; state.spinning=false; state.rotation=0;
+    $("wheel").style.transition="none";
+    $("wheel").style.transform="rotate(0deg)";
+    setTimeout(()=> $("wheel").style.transition="transform 2.1s cubic-bezier(.15,.82,.12,1)",20);
+    clearScenario();
+    updateMetrics();
+    $("outcomeOverlay").classList.remove("show");
+    if(goStart) showScreen("start"); else showScreen("play");
+  }
+
+  function clearScenario(){
+    $("scenarioPlaceholder").style.display="grid";
+    $("scenarioContent").style.display="none";
+    $("scenarioPlaceholder").querySelector("h3").textContent=`Ready for Sprint Day ${Math.min(state.day,MAX_DAYS)}`;
+    $("scenarioPlaceholder").querySelector("p").textContent="Spin the wheel to reveal the next product or reliability decision.";
+    $("spinBtn").disabled=false;
+    $("spinFromPanelBtn").disabled=false;
+  }
+
+  function availableIndexes(){
+    return scenarios.map((_,i)=>i).filter(i=>!state.used.includes(i));
+  }
+
+  function spin(){
+    if(state.spinning || state.current || state.day>MAX_DAYS) return;
+    let available = availableIndexes();
+    if(!available.length){ state.used=[]; available=availableIndexes(); }
+    const index = available[Math.floor(Math.random()*available.length)];
+    state.used.push(index);
+    state.spinning=true;
+    $("spinBtn").disabled=true;
+    $("spinFromPanelBtn").disabled=true;
+    showToast("Spinning…");
+
+    const extraTurns = 5 + Math.floor(Math.random()*3);
+    const segmentCenter = index*36 + 18;
+    const target = state.rotation + extraTurns*360 + (360 - segmentCenter);
+    state.rotation = target;
+    $("wheel").style.transform = `rotate(${target}deg)`;
+
+    setTimeout(()=>{
+      state.spinning=false;
+      state.current=scenarios[index];
+      renderScenario(state.current);
+      showToast("Scenario selected");
+    },2150);
+  }
+
+  function renderScenario(s){
+    $("scenarioPlaceholder").style.display="none";
+    $("scenarioContent").style.display="block";
+    $("scenarioTag").textContent=s.type;
+    $("scenarioTag").className=`tag ${s.tagClass}`;
+    $("scenarioDay").textContent=`Day ${state.day}`;
+    $("scenarioTitle").textContent=s.title;
+    $("scenarioDesc").textContent=s.desc;
+    $("metaArea").textContent=s.area;
+    $("metaRisk").textContent=s.risk;
+    $("metaPressure").textContent=s.pressure;
+    const container=$("choices");
+    container.innerHTML="";
+    s.options.forEach((opt,i)=>{
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="choice";
+      b.innerHTML=`
+        <span class="choice-num">${i+1}</span>
+        <span class="choice-text"><strong>${opt.title}</strong><span>${opt.hint}</span></span>
+        <span class="impact-preview">
+          <span class="impact-pill">Budget ${signed(opt.budget,"%")}</span>
+          <span class="impact-pill">Value ${signed(opt.product)}</span>
+          <span class="impact-pill">Trust ${signed(opt.trust)}</span>
+        </span>`;
+      b.addEventListener("click",()=>choose(i));
+      container.appendChild(b);
+    });
+    $("spinBtn").disabled=true;
+  }
+
+  function choose(i){
+    if(!state.current || state.chosen) return;
+    const opt=state.current.options[i];
+    state.chosen=true;
+    document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+
+    state.budget=clamp(state.budget+opt.budget,0,100);
+    state.product=clamp(state.product+opt.product,0,100);
+    state.trust=clamp(state.trust+opt.trust,0,100);
+    state.incidents+=opt.incidents || 0;
+    updateMetrics();
+
+    $("outcomeTitle").textContent=opt.title;
+    $("outcomeText").textContent=opt.outcome;
+    $("deltaBudget").textContent=signed(opt.budget,"%");
+    $("deltaProduct").textContent=signed(opt.product);
+    $("deltaTrust").textContent=signed(opt.trust);
+    $("nextBtn").textContent=(state.day>=MAX_DAYS || state.budget<=0 || state.trust<=0) ? "View Final Result" : "Next Sprint Day";
+    $("outcomeOverlay").classList.add("show");
+  }
+
+  function nextDay(){
+    if(!$("outcomeOverlay").classList.contains("show")) return;
+    $("outcomeOverlay").classList.remove("show");
+    if(state.day>=MAX_DAYS || state.budget<=0 || state.trust<=0){
+      finishGame();
+      return;
+    }
+    state.day++;
+    state.current=null;
+    state.chosen=false;
+    clearScenario();
+    updateMetrics();
+    showToast(`Sprint Day ${state.day}`);
+  }
+
+  function finishGame(){
+    let badge,title,summary;
+    if(state.budget<=0 || state.trust<40){
+      badge="Critical Breach";
+      title="Delivery exceeded the service's reliability capacity.";
+      summary="The team generated value, but reliability and customer trust fell below a sustainable level. The next sprint should pause risky releases and focus on recovery.";
+    } else if(state.product>=75 && state.budget<30){
+      badge="Feature Factory";
+      title="Strong delivery, but the error budget is nearly exhausted.";
+      summary="The team shipped aggressively and created substantial business value. Future releases now carry high operational risk unless reliability work is prioritized.";
+    } else if(state.product<35 && state.budget>=70){
+      badge="Reliability Gridlock";
+      title="The platform is stable, but delivery was too conservative.";
+      summary="Reliability remained strong, but the team did not convert enough capacity into product value. SRE should enable safe delivery—not stop it.";
+    } else if(state.budget>=40 && state.product>=45 && state.trust>=70){
+      badge="Balanced Engineering";
+      title="You delivered value and protected reliability.";
+      summary="The team used staged releases and reliability investments to maintain customer trust while still moving the product forward.";
+    } else {
+      badge="Managed Risk";
+      title="You completed the sprint with trade-offs to address.";
+      summary="The result is workable, but the remaining error budget and trust level should shape the next release decision.";
+    }
+    $("resultBadge").textContent=badge;
+    $("resultTitle").textContent=title;
+    $("resultSummary").textContent=summary;
+    $("finalBudget").textContent=`${state.budget}%`;
+    $("finalProduct").textContent=state.product;
+    $("finalTrust").textContent=state.trust;
+    $("finalIncidents").textContent=state.incidents;
+    showScreen("result");
+  }
+
+  async function toggleFullscreen(){
+    try{
+      if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+      else await document.exitFullscreen();
+    }catch(e){
+      showToast("Press F11 for browser fullscreen");
+    }
+  }
+
+  function showToast(text){
+    const t=$("toast");
+    t.textContent=text;
+    t.classList.add("show");
+    clearTimeout(showToast.timer);
+    showToast.timer=setTimeout(()=>t.classList.remove("show"),1600);
+  }
+
+  function openHelp(){ $("helpOverlay").classList.add("show"); }
+  function closeHelp(){ $("helpOverlay").classList.remove("show"); }
+
+  $("startBtn").addEventListener("click",()=>{ resetGame(false); });
+  $("spinBtn").addEventListener("click",spin);
+  $("spinFromPanelBtn").addEventListener("click",spin);
+  $("nextBtn").addEventListener("click",nextDay);
+  $("finishBtn").addEventListener("click",finishGame);
+  $("resetBtn").addEventListener("click",()=>resetGame(true));
+  $("resultResetBtn").addEventListener("click",()=>resetGame(true));
+  $("playAgainBtn").addEventListener("click",()=>resetGame(false));
+  ["startFullscreenBtn","fullscreenBtn","resultFullscreenBtn"].forEach(id=>$(id).addEventListener("click",toggleFullscreen));
+  $("helpBtn").addEventListener("click",openHelp);
+  $("startHelpBtn").addEventListener("click",openHelp);
+  $("closeHelpBtn").addEventListener("click",closeHelp);
+  $("helpOverlay").addEventListener("click",e=>{ if(e.target===$("helpOverlay")) closeHelp(); });
+
+  document.addEventListener("keydown",e=>{
+    if($("helpOverlay").classList.contains("show")){
+      if(e.key==="Escape") closeHelp();
+      return;
+    }
+    const key=e.key.toLowerCase();
+    if(key==="f"){ e.preventDefault(); toggleFullscreen(); }
+    else if(key==="r"){ e.preventDefault(); resetGame(true); }
+    else if(key===" "){ e.preventDefault(); if(screens.play.classList.contains("active")) spin(); }
+    else if(["1","2","3"].includes(e.key) && screens.play.classList.contains("active")) choose(Number(e.key)-1);
+    else if(key==="n") nextDay();
+  });
+
+  window.addEventListener("resize",fitStage);
+  document.addEventListener("fullscreenchange",fitStage);
+  fitStage();
+  updateMetrics();
+})();
+</script>
+</body>
+</html>
