@@ -1,11 +1,24 @@
-Hi Soumya,
+Hi Abhilash, I drafted the below update combining the automation work and the September certificate renewal follow-ups. Please review and let me know if you want to add or modify anything before we share it with Soumya.
 
-Here are my major accomplishments from the Customer Impact workstream for Q1 and Q2:
+**Certificate Renewal Automation Update**
 
-In Q1, I worked on Customer Impact query development and validation for 8 applications: DAIL, AIL, Authorizations, Pulse Debit, Discover Mobile, Atlas, Card Acquisitions, and IVR Bank.
-I created, validated, and converted the required queries for these applications. For Discover Mobile and Atlas, I also converted the CLS-based queries into ES DQL format.
-I worked closely with the Customer Impact workstream and supported the DTA team in integrating the validated Customer Impact counts into the DTA page, making the impact numbers visible and usable for application teams.
-In Q2, I worked on FFIEC DR/payment application tickets(8), mainly focused on validating Customer Impact queries for payment-related applications such as EPP, SAFE, RBI, Full Volume Publisher, Auth Extracts, Splunk Publisher, Pulse Clearing & Reconciliation.
-I converted plain ES queries into ES DSL format, validated Splunk-based queries for multiple applications, and moved 4 payment application tickets Full Volume Publisher, EPP, Auth Extracts, and Splunk Publisher into final review/approval with the respective App/SRE owners.
+We have completed the current-state inventory across the GPN towers to understand the existing certificate renewal processes, automation status, ownership, and available references.
 
-Overall, my contribution across Q1 and Q2 was focused on query creation, query conversion, validation, DTA integration support, and driving Customer Impact tickets toward closure through coordination with App/SRE owners.
+Most teams already have certificate automation implemented or are currently working toward automation. The plan is to leverage the existing approved automation workflows and provide a centralized dashboard entry point for certificate renewals rather than creating separate renewal processes.
+
+**Current Progress:**
+
+* Completed the certificate renewal current-state inventory across towers, including renewal process, automation status, ownership, and available documentation/references.
+* Identified Digital and DCI NetAuth as the initial POC candidates for dashboard-triggered certificate renewal.
+* Reviewing the existing Ansible/AAP automation flows to understand the required inputs, trigger mechanism, and how execution status/results can be captured.
+* Working on identifying the ServiceNow and AAP integration approach required to initiate existing automation workflows from the dashboard.
+* Following up with all tower teams to validate September production certificate expirations and confirm they are included in their renewal plans.
+* Tracking renewal responses and updating the certificate inventory with the latest status.
+
+**Dependencies / Next Steps:**
+
+* Confirm the supported ServiceNow integration approach for triggering AAP automation.
+* Determine how AAP job execution status/results can be retrieved and represented in the dashboard.
+* Complete the POC validation with Digital/DCI NetAuth and use the learnings to expand the approach to other towers.
+
+Thanks!
