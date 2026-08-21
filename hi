@@ -1,24 +1,24 @@
 Hi Abhilash, I drafted the below update combining the automation work and the September certificate renewal follow-ups. Please review and let me know if you want to add or modify anything before we share it with Soumya.
 
-**Certificate Renewal Automation Update**
+Certificate Renewal Automation Update
 
 We have completed the current-state inventory across the GPN towers to understand the existing certificate renewal processes, automation status, ownership, and available references.
 
 Most teams already have certificate automation implemented or are currently working toward automation. The plan is to leverage the existing approved automation workflows and provide a centralized dashboard entry point for certificate renewals rather than creating separate renewal processes.
 
-**Current Progress:**
+Current Progress:
 
-* Completed the certificate renewal current-state inventory across towers, including renewal process, automation status, ownership, and available documentation/references.
-* Identified Digital and DCI NetAuth as the initial POC candidates for dashboard-triggered certificate renewal.
-* Reviewing the existing Ansible/AAP automation flows to understand the required inputs, trigger mechanism, and how execution status/results can be captured.
-* Working on identifying the ServiceNow and AAP integration approach required to initiate existing automation workflows from the dashboard.
-* Following up with all tower teams to validate September production certificate expirations and confirm they are included in their renewal plans.
-* Tracking renewal responses and updating the certificate inventory with the latest status.
+Completed the certificate renewal current-state inventory across towers, including renewal process, automation status, ownership, and available documentation/references.
+Identified Digital and DCI NetAuth as the initial POC candidates for dashboard-triggered certificate renewal.
+Reviewing the existing Ansible/AAP automation flows to understand the required inputs, trigger mechanism, and how execution status/results can be captured.
+Working on identifying the ServiceNow and AAP integration approach required to initiate existing automation workflows from the dashboard.
+Following up with DCI/DN Settlement and DCI/DN NetAuth teams to validate September production certificate expirations and confirm they are included in their renewal plans.
+Tracking renewal responses and updating the certificate inventory/dashboard with the latest status.
 
-**Dependencies / Next Steps:**
+Dependencies / Next Steps:
 
-* Confirm the supported ServiceNow integration approach for triggering AAP automation.
-* Determine how AAP job execution status/results can be retrieved and represented in the dashboard.
-* Complete the POC validation with Digital/DCI NetAuth and use the learnings to expand the approach to other towers.
+Confirm the supported ServiceNow integration approach for triggering AAP automation.
+Determine how AAP job execution status/results can be retrieved and represented in the dashboard.
+Complete the POC validation with Digital/DCI NetAuth and use the learnings to expand the approach to other towers.
 
 Thanks!
